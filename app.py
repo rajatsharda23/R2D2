@@ -15,34 +15,34 @@ config = RailsConfig.from_path("./config")
 rails = LLMRails(config)
 
 rails = LLMRails(config=config)
+prompt_list = []
 
 # To append the new prompt to last to retain history
-def update_list(message: str, pl: list[str]):
-    pl.append(message)
-
-def create_prompt(message: str, pl: list[str]) -> str:
-    p_message : str = f'\n{message}'
-    update_list(p_message, pl)
-    prompt: str = ''.join(pl)
-    return prompt
-
-async def get_bot_response(message: str, pl: list[str]) -> str:
-    prompt: str = create_prompt(message,pl)
+async def get_bot_response(message: str) -> str:
+    prompt = message
     bot_response: str = asyncio.create_task(get_api_response(prompt))
     update_bot_response  = await bot_response
 
 
-    if update_bot_response:
-        update_list(update_bot_response,pl)
-    
-    else:   #Incase of error in API call to gpt
+    if not update_bot_response:
         update_bot_response = 'Something went wrong...'
 
     return update_bot_response   
 
+def create_prompt(message: str, pl: list[str]) -> str:
+    p_message : str = f'\n{message}'
+    prompt: str = ''.join(pl)
+    return prompt
+
 # API call to get answer from gpt-3.5
 async def get_api_response(prompt: str) -> str | None:
     text: str | None = None
+
+    prompt_list = []
+    for key in st.session_state['messages']:
+        prompt_list.append(key['content'])
+
+    prompt = create_prompt(prompt, prompt_list)
 
     try:
         response = await rails.generate_async(
@@ -52,26 +52,35 @@ async def get_api_response(prompt: str) -> str | None:
             }]
         )
         text = response["content"]
-        info = rails.explain()
-        info.print_llm_calls_summary()
-        print(info.colang_history)
-        print(info.llm_calls[1].completion)
+        # print(response)
+        # print(st.session_state)
+        # info = rails.explain()
+        # info.print_llm_calls_summary()
+        # print(info.colang_history)
+        # print(info.llm_calls[1].completion)
 
     except Exception as e:
         print('ERROR: ', e)
     
     return text 
 
-async def resp(prompt: str, pl: list[str]):
-    response_from_gpt: str = asyncio.create_task(get_bot_response(prompt, pl))
-    response = await response_from_gpt
-    
-    # Display bot message
-    with st.chat_message("assistant"):
-        st.markdown(response)
-        st.markdown(pl)
-    #Add message to AI history
-    st.session_state.messages.append({"role":"assistant", "content": response})
+async def resp(prompt: str):
+     with st.chat_message(name="R2D2", avatar='🤖'):
+        message_placeholder = st.empty()
+        full_response = ""
+
+        response_from_gpt: str = asyncio.create_task(get_bot_response(prompt))
+        response = await response_from_gpt
+        
+        full_response += response
+        
+        # Display bot message
+        message_placeholder.markdown(full_response + "| ")
+        message_placeholder.markdown(full_response)
+        
+        #Add message to AI history
+        st.session_state.messages.append({"role": "R2D2", "content": response})
+
 
 #Streamlit App
 st.title("R2/D2 bot")
@@ -92,6 +101,8 @@ if prompt:= st.chat_input("Start writing here..."):
         st.markdown(prompt)
     #Add message to user history
     st.session_state.messages.append({"role":"user", "content": prompt})
-    prompt_list = []
-    asyncio.run(resp(prompt, prompt_list))
-    # response_from_gpt: str = asyncio.create_task(get_bot_response(prompt, prompt_list))
+    
+    
+    #Display bot response
+    
+    asyncio.run(resp(prompt))
