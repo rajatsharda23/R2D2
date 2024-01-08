@@ -52,12 +52,19 @@ async def get_api_response(prompt: str) -> str | None:
             }]
         )
         text = response["content"]
-        # print(response)
-        # print(st.session_state)
-        # info = rails.explain()
-        # info.print_llm_calls_summary()
-        # print(info.colang_history)
-        # print(info.llm_calls[1].completion)
+        print('---------------------------- \n')
+        print(prompt)
+        print('(1) \n')
+        print(response)
+        print('(2)\n')
+        info = rails.explain()
+        info.print_llm_calls_summary()
+        print('(3) \n')
+        print(info.colang_history)
+        print('(4) \n')
+        print(info.llm_calls[1].completion)
+        print('(5) \n')
+        print(text)
 
     except Exception as e:
         print('ERROR: ', e)

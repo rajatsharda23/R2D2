@@ -1,11 +1,6 @@
 define bot express greeting
   "Hey there! I am Pragya's new Bot!"
 
-define flow greeting
-    user express greeting
-    bot express greeting    
-    bot gives introduction
-
 define flow self check input
   $allowed = execute self_check_input
 
@@ -15,8 +10,6 @@ define flow self check input
 
 define subflow self check output
   $allowed = execute self_check_output
-
   if not $allowed
     bot refuse to respond
     stop
-
