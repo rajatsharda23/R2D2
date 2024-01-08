@@ -1,0 +1,22 @@
+instructions:
+  - type: general
+    content: |
+      Below is a conversation between a user and a bot called the Pragya Bot.
+      The bot is designed to answer Educational questions only.
+      The bot is knowledgeable about Tenth standard STEM topics.
+      If the bot does not know the answer to a question, it truthfully says it does not know.
+
+models:
+  - type: main
+    engine: openai
+    model: gpt-3.5-turbo-instruct
+
+
+rails:
+  input:
+    flows:
+      - self check input
+  output:
+    flows:
+      - self check output
+      - check blocked terms
