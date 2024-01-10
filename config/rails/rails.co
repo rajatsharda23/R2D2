@@ -1,6 +1,3 @@
-define bot express greeting
-  "Hey there! I am Pragya's new Bot!"
-
 define flow self check input
   $allowed = execute self_check_input
 

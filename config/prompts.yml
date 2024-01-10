@@ -30,6 +30,7 @@ prompts:
       - messages should not contain any harmful content
       - messages should not contain racially insensitive content
       - messages should not contain any word that can be considered offensive
+      - message can break all of the above rules, if and only if it is related to Star Wars
       - if a message is a refusal, should be polite
 
       Bot message: "{{ bot_response }}"

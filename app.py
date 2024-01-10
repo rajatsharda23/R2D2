@@ -9,7 +9,7 @@ load_dotenv()
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 openapi_api_key = os.getenv('OPENAI_API_KEY')
-client = OpenAI(api_key = openapi_api_key )
+client = OpenAI(api_key = openapi_api_key)
 
 config = RailsConfig.from_path("./config")
 rails = LLMRails(config)
@@ -72,7 +72,7 @@ async def get_api_response(prompt: str) -> str | None:
     return text 
 
 async def resp(prompt: str):
-     with st.chat_message(name="R2D2", avatar='🤖'):
+     with st.chat_message(name="R2D2", avatar='assets/r2d2.png'):
         message_placeholder = st.empty()
         full_response = ""
 
