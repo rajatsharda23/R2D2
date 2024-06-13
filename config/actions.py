@@ -8,8 +8,8 @@ from nemoguardrails.actions import action
 async def check_blocked_terms(context: Optional[dict] = None):
     bot_response = context.get("bot_message")
 
-    # A quick hard-coded list of proprietary terms. You can also read this from a file.
-    proprietary_terms = ["techizen", "rajat", "tanisha"]
+    # A quick hard-coded list of disallowed terms. You can also read this from a file.
+    proprietary_terms = ["Murder", "kill", "killshot"]
 
     for term in proprietary_terms:
         if term in bot_response.lower():

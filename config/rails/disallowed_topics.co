@@ -3,5 +3,9 @@ define user ask about cooking
   "How much do I have to boil pasta?"
 
 define flow
+  user ask about not star wars
+  bot refuse to respond not star wars
+
+define flow
   user ask about cooking
   bot refuse to respond about cooking
