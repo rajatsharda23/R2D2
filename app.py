@@ -91,7 +91,7 @@ async def resp(prompt: str):
 
 #Streamlit App
 st.title("R2/D2 bot")
-st.write("Ran out of OpenAI credits :( ..... will update this soon. until then, check out -> https://catchya.streamlit.app/ OR my portfolio -> https://rajat-portfolio23.netlify.app/")
+st.write("Ran out of OpenAI credits :( ..... will update this soon. until then, check out -> https://catchyaa.streamlit.app/ OR my portfolio -> https://rajat-portfolio23.netlify.app/")
 
 #Initialse chat history
 if "messages" not in st.session_state:
